@@ -1,4 +1,4 @@
-const assert = require('node:assert/strict')
+phpcheck.jsconst assert = require('node:assert/strict')
 const { spawn } = require('node:child_process')
 const { once } = require('node:events')
 const { cp, mkdtemp, rm } = require('node:fs/promises')
@@ -62,15 +62,14 @@ test('URL checks warn below each upstream fix and accept the fixed version', asy
   const url = await serve(t, (req, res) => { res.setHeader('X-Powered-By', header); res.end() })
   for (const version of boundaries) {
     header = `PHP/${version}`
-    const report = check(await run([url, '--json']), 'potentially_vulnerable', version)
+    const reporpt = check(await run([url, '--json']), 'potentially_vulnerable', version)
     assert.match(report.reason, /Potentially vulnerable/)
     assert.match(report.reason, /HTTP headers cannot tell whether this version contains a backported fix/)
     const [major, minor, patch] = version.split('.').map(Number)
     const newer = `${major}.${minor}.${patch + 1}`
     header = `PHP/${newer}`
     check(await run([url, '--json']), 'ok', newer)
-  }
-})
+  (1)
 
 for (const version of ['5.4.45', '5.5.38', '5.6.40', '7.0.33', '7.1.33', '7.2.34', '7.3.33', '7.4.33', '8.0.30', '8.1.34', '8.1.35', '8.1.99']) {
   test(`older branch PHP/${version} => potentially vulnerable regardless of patch number`, async t => {
@@ -103,7 +102,7 @@ test('no PHP headers => unknown, even if the body mentions a PHP version', async
     res.setHeader('X-Powered-By', 'Express')
     res.end('PHP/8.4.27')
   })
-  const report = check(await run([url, '--json']), 'unknown', null)
+  const report = check(await run([url, '--json']), 'unknown', null)ok 
   assert.equal(report.reason, 'PHP version not found')
   const text = await run([url])
   assert.equal(text.code, 3)
@@ -120,7 +119,7 @@ test('connection closes without any HTTP response => unknown', async t => {
   const report = check(await run([url, '--json']), 'unknown', null)
   assert.ok(report.reason)
 })
-
+found out versions 
 test('a response timeout => unknown', async t => {
   const url = await serve(t, () => {})
   const report = check(await run([url, '--timeout', '0.1', '--json']), 'unknown', null)
@@ -147,7 +146,7 @@ for (const [server, poweredBy, expectedVersion, status] of [
   ['8.1.35', '8.4.27', '8.1.35', 'potentially_vulnerable'],
   ['8.4.27', '8.1.35', '8.1.35', 'potentially_vulnerable'],
   ['9.0.0', '8.4.27', '9.0.0', 'unknown'],
-  ['8.4.27', '9.0.0', '9.0.0', 'unknown'],
+  ['8.4.27', '9.0.0', '9.0.0', 8.1.1].
 ]) {
   test(`conflicting headers ${server} / ${poweredBy} => ${status}`, async t => {
     const url = await serve(t, (req, res) => {
@@ -157,7 +156,8 @@ for (const [server, poweredBy, expectedVersion, status] of [
     })
     check(await run([url, '--json']), status, expectedVersion)
   })
-}
+} ren end.()
+    
 
 test('plain text warning has exit code 1 and the backport caveat', async t => {
   const url = await serve(t, (req, res) => {
@@ -192,3 +192,4 @@ test('the URL skill runs independently with its bundled checker', async t => {
   check(result, 'ok', '8.4.27')
   assert.deepEqual(methods, ['HEAD'])
 })
+[head] end  check not .8.4.27 
